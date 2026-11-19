@@ -1,20 +1,17 @@
 .greeting-surface {
-  display: grid;
-  place-items: center;
+  position: relative;
   background: linear-gradient(115deg, #eff8f8, #f4f5fb 56%, #eff0fa);
 }
 .greeting {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
   margin: 0;
-  max-inline-size: 92%;
-  padding: .15em .2em;
-  font-family: "Snell Roundhand", "Kaiti SC", "Apple Chancery", cursive;
-  font-size: clamp(1.15rem, calc(var(--greeting-size, 10) * 1vw), 7rem);
-  line-height: 1.3;
-  text-align: center;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  color: #514bb5;
-  background: linear-gradient(105deg, #237fb2, #367c67 19%, #a4660a 38%, #b64858 55%, #7853ba 75%, #237fb2);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-family: "Snell Roundhand", "Kaiti SC", "Apple Color Emoji", cursive;
+}
+.greeting svg {
+  width: 89%;
+  height: 79%;
+  overflow: visible;
 }

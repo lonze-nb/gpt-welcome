@@ -4,7 +4,7 @@
 
 ## 定制并下载
 
-打开 [定制下载页](https://lonze-nb.github.io/gpt-welcome/)。输入欢迎语，可以预览动画，再点「下载 macOS 定制版」。下载页在浏览器中把欢迎语写入 ZIP 里的 `greeting.json`，并保留应用包的签名。欢迎语不会发送到服务器。
+打开 [定制下载页](https://lonze-nb.github.io/gpt-welcome/)。输入欢迎语，可以预览逐笔书写的动画，再点「下载 macOS 定制版」。下载页在浏览器中把欢迎语写入 ZIP 里的 `greeting.json`，并保留应用包的签名。欢迎语不会发送到服务器。
 
 解压后，将 **GPT Welcome.app** 和 **greeting.json** 放在同一文件夹。可以编辑 JSON 后重新播放以更换欢迎语。首次打开助手后，若希望登录时自动运行，请在 **系统设置 → 通用 → 登录项与扩展 → 登录时打开** 中添加它。
 
@@ -25,4 +25,9 @@ open 'build/Customize GPT Welcome.html'
 
 在公开仓库的 **Settings → Pages → Build and deployment → Source** 中选 **GitHub Actions**，然后在 **Actions** 里运行 **Build and publish the download page**。工作流也会在推送到 `main` 后运行。
 
-[MIT License](LICENSE)
+## 字形数据许可
+
+项目代码采用 [MIT License](LICENSE)。英文字母和数字使用项目自绘笔画。
+汉字笔顺来自 [Hanzi Writer Data 2.0.1](https://github.com/chanind/hanzi-writer-data)，沿用其 Arphic Public License。
+构建时只保留笔画中心线，坐标保持原样，完整许可随构建产物分发。
+没有笔画数据的字符（如 emoji）会在对应的位置淡入。

@@ -8,7 +8,9 @@
 html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; }
 .greeting-surface { width: 100%; height: 100%; }
 </style>
-<main class="greeting-surface"><p class="greeting" dir="auto"></p></main>
+<main class="greeting-surface"><p class="greeting" role="img"></p></main>
+<script src="letter-strokes.js"></script>
+<script src="hanzi-strokes.js"></script>
 <script src="greeting.js"></script>
 <script>
 animateGreeting(document.querySelector(".greeting"), globalThis.welcomeGreeting ?? defaultGreeting)

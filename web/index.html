@@ -27,18 +27,20 @@ small { color: #50536a; line-height: 1.5; }
 <main>
   <h1>GPT Welcome</h1>
   <p>为 macOS 上的 ChatGPT 写一句自己的欢迎语。</p>
-  <div class="greeting-surface"><p class="greeting" dir="auto">welcome</p></div>
+  <div class="greeting-surface"><p class="greeting" role="img">welcome</p></div>
   <form>
     <label for="message">欢迎语</label>
     <input id="message" type="text" maxlength="64" placeholder="welcome" autocomplete="off" dir="auto">
     <div class="actions">
       <button id="download" type="submit">下载 macOS 定制版</button>
-      <button id="replay" type="button">播放预览</button>
+      <button id="replay" type="button">播放手写预览</button>
     </div>
     <p id="status" role="status"></p>
     <small>支持 macOS 13 及以上。欢迎语在浏览器内打包。解压后，请将应用和 greeting.json 放在同一文件夹。</small>
   </form>
 </main>
+<script src="letter-strokes.js"></script>
+<script src="hanzi-strokes.js"></script>
 <script src="greeting.js"></script>
 <script src="zip.js"></script>
 <script src="configurator.js"></script>

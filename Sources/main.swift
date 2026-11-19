@@ -182,7 +182,7 @@ final class WelcomeAssistant: NSObject, NSApplicationDelegate, WKScriptMessageHa
         view.loadFileURL(page, allowingReadAccessTo: page.deletingLastPathComponent())
         panel.orderFrontRegardless()
         syncFrame(pid: pid, windowID: target.id, generation: current)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 8) { [weak self] in
             guard let self, self.presentation == current, !self.didFinishWriting else { return }
             self.beginComposerCheck(pid: pid, generation: current)
         }
