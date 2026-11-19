@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GPT Welcome</title>
+<link rel="stylesheet" href="greeting.css">
+<style>
+:root { font-family: -apple-system, BlinkMacSystemFont, sans-serif; color: #202335; background: #faf9fc; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { width: min(100% - 32px, 54rem); margin: clamp(2rem, 8vw, 6rem) auto; }
+h1 { font-size: clamp(2rem, 7vw, 4rem); letter-spacing: -.055em; margin: 0 0 .65rem; }
+main > p { color: #50536a; margin: 0 0 1.5rem; }
+.greeting-surface { min-height: clamp(13rem, 48vw, 25rem); border-radius: 24px; margin-bottom: 1.5rem; padding: 1rem; }
+form { display: grid; gap: .75rem; }
+label { font-weight: 600; }
+input, button { font: inherit; border-radius: 12px; padding: .75rem 1rem; }
+input { width: 100%; border: 1px solid #b4b4c6; background: white; color: inherit; }
+.actions { display: flex; flex-wrap: wrap; gap: .6rem; }
+button { border: 1px solid #b4b4c6; background: transparent; color: inherit; cursor: pointer; }
+button[type="submit"] { background: #282442; color: white; border-color: #282442; }
+button:disabled { opacity: .6; cursor: wait; }
+:focus-visible { outline: 3px solid #605acd; outline-offset: 3px; }
+#status { min-height: 1.4em; margin: 0; }
+small { color: #50536a; line-height: 1.5; }
+</style>
+<main>
+  <h1>GPT Welcome</h1>
+  <p>为 macOS 上的 ChatGPT 写一句自己的欢迎语。</p>
+  <div class="greeting-surface"><p class="greeting" dir="auto">welcome</p></div>
+  <form>
+    <label for="message">欢迎语</label>
+    <input id="message" type="text" maxlength="64" placeholder="welcome" autocomplete="off" dir="auto">
+    <div class="actions">
+      <button id="download" type="submit">下载 macOS 定制版</button>
+      <button id="replay" type="button">播放预览</button>
+    </div>
+    <p id="status" role="status"></p>
+    <small>支持 macOS 13 及以上。欢迎语在浏览器内打包。解压后，请将应用和 greeting.json 放在同一文件夹。</small>
+  </form>
+</main>
+<script src="greeting.js"></script>
+<script src="zip.js"></script>
+<script src="configurator.js"></script>
+</html>
