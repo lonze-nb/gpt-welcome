@@ -33,11 +33,11 @@ form.addEventListener("submit", async (event) => {
     if (embedded) {
       template = Uint8Array.from(atob(embedded.textContent.trim()), char => char.charCodeAt(0));
     } else {
-      const response = await fetch("app-template.zip");
+      const response = await fetch("app-template.zip?v=2.1.1", { cache: "no-store" });
       if (!response.ok) throw new Error("ZIP template could not be loaded");
       template = new Uint8Array(await response.arrayBuffer());
     }
-    const zip = appendZipFile(template, "greeting.json", JSON.stringify({ greeting: message }) + "\n");
+    const zip = appendZipFile(template, "GPT Welcome/greeting.json", JSON.stringify({ greeting: message }) + "\n");
     const url = URL.createObjectURL(zip);
     const link = document.createElement("a");
     link.href = url;

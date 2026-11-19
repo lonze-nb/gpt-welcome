@@ -3,6 +3,10 @@ import ApplicationServices
 import CoreGraphics
 import WebKit
 
+private let greetingSettings = GreetingSettings(
+    profileURL: Bundle.main.bundleURL.deletingLastPathComponent().appendingPathComponent("greeting.json")
+)
+
 final class WelcomeAssistant: NSObject, NSApplicationDelegate, WKScriptMessageHandler {
     private let targetPID: pid_t
     private var window: NSWindow?
@@ -27,6 +31,7 @@ final class WelcomeAssistant: NSObject, NSApplicationDelegate, WKScriptMessageHa
         item.button?.title = "Welcome"
         let menu = NSMenu()
         menu.addItem(withTitle: "在当前 GPT 窗口预览", action: #selector(preview), keyEquivalent: "").target = self
+        menu.addItem(withTitle: "更改欢迎语…", action: #selector(editGreeting), keyEquivalent: "").target = self
         menu.addItem(withTitle: "设置输入框检测权限", action: #selector(requestAccessibility), keyEquivalent: "").target = self
         menu.addItem(withTitle: "查看退场检测状态", action: #selector(showDetectionStatus), keyEquivalent: "").target = self
         menu.addItem(withTitle: "关闭欢迎画面", action: #selector(dismissWelcome), keyEquivalent: "").target = self
@@ -131,17 +136,29 @@ final class WelcomeAssistant: NSObject, NSApplicationDelegate, WKScriptMessageHa
         }
     }
 
+    @objc private func editGreeting() {
+        let alert = NSAlert()
+        alert.messageText = "更改欢迎语"
+        alert.informativeText = "保存后会播放新的欢迎语。"
+        let input = NSTextField(string: greetingSettings.currentGreeting())
+        input.frame = NSRect(x: 0, y: 0, width: 280, height: 24)
+        alert.accessoryView = input
+        alert.window.initialFirstResponder = input
+        alert.addButton(withTitle: "保存并预览")
+        alert.addButton(withTitle: "取消")
+        guard alert.runModal() == .alertFirstButtonReturn else { return }
+        guard greetingSettings.setGreeting(input.stringValue) else {
+            let error = NSAlert()
+            error.messageText = "欢迎语无法保存"
+            error.informativeText = "请输入简短的单行欢迎语。"
+            error.runModal()
+            return
+        }
+        preview()
+    }
+
     private func greetingScript() -> WKUserScript? {
-        let profile = Bundle.main.bundleURL.deletingLastPathComponent()
-            .appendingPathComponent("greeting.json")
-        guard let file = try? FileHandle(forReadingFrom: profile) else { return nil }
-        defer { try? file.close() }
-        guard let data = try? file.read(upToCount: 4097), data.count <= 4096,
-              let settings = try? JSONDecoder().decode([String: String].self, from: data),
-              let greeting = settings["greeting"]?.trimmingCharacters(in: .whitespacesAndNewlines),
-              !greeting.isEmpty, greeting.utf8.count <= 512,
-              greeting.unicodeScalars.allSatisfy({ $0.value >= 32 && !(127...159).contains($0.value) }),
-              let json = try? JSONEncoder().encode(greeting),
+        guard let json = try? JSONEncoder().encode(greetingSettings.currentGreeting()),
               let literal = String(data: json, encoding: .utf8) else { return nil }
         return WKUserScript(
             source: "globalThis.welcomeGreeting = " + literal,
@@ -333,6 +350,7 @@ final class LaunchMonitor: NSObject, NSApplicationDelegate {
     private var launchedPIDs = Set<pid_t>()
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        _ = greetingSettings.currentGreeting()
         let center = NSWorkspace.shared.notificationCenter
         center.addObserver(self, selector: #selector(launched(_:)), name: NSWorkspace.didLaunchApplicationNotification, object: nil)
         center.addObserver(self, selector: #selector(terminated(_:)), name: NSWorkspace.didTerminateApplicationNotification, object: nil)
