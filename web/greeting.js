@@ -15,7 +15,7 @@ function glyph(character) {
     const [width, ...paths] = latin;
     return { width, paths: paths.flatMap(path => path.split(/(?=M)/)), weight: 5.8, joins: /^[a-z]$/.test(character) };
   }
-  const hanzi = hanziStrokes[character];
+  const hanzi = typeof hanziStrokes === "undefined" ? undefined : hanziStrokes[character];
   if (hanzi) {
     const paths = hanzi.map(points => points.map(([x, y], index) => {
       return (index ? "L" : "M") + (x * .077).toFixed(1) + " " + ((900 - y) * .077 + 10).toFixed(1);
